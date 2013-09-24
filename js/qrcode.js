@@ -251,20 +251,15 @@ qrcode.grayScaleToBitmap=function(grayScale)
 }
 
 qrcode.grayscale = function(){
-	var ret = new Array(qrcode.width*qrcode.height);
-	for (var y = 0; y < qrcode.height; y++)
-	{
-		for (var x = 0; x < qrcode.width; x++)
-		{
-			var gray = qrcode.getPixel(x, y);
-			
-			ret[x+y*qrcode.width] = gray;
-		}
-	}
-	return ret;
+  var data_length = qrcode.imagedata.data.length;
+  var ret = new Array(qrcode.width*qrcode.height);
+  var ret_index = 0;
+  for(var i = 0; i < data_length; i+=4) {
+    ret[ret_index] = (3 * qrcode.imagedata.data[i] + 4 * qrcode.imagedata.data[i + 1] + qrcode.imagedata.data[i + 2]) >>> 3;
+    ret_index += 1;
+  }
+  return ret;
 }
-
-
 
 
 function URShift( number,  bits)
